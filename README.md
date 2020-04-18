@@ -1,7 +1,5 @@
 # ApplicationScenarioExamples
 
-#Nina Baumgarten, Date 17/04/2020
-
 
 This repository contains examples and code to perform the Application scenarios explained in the EpiRegio documentation: https://epiregiodb.readthedocs.io/en/latest/ApplicationScenario.html. Please follow the instructions there. 
 
