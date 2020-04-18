@@ -15,7 +15,8 @@ else:
 	with open(fastaFile, 'r') as f, open(outputFasta, 'w') as o:
 		for line in f:
 			if line[0] == ">":
-				header = line
+				line = line.split("::")
+				header = line[0] + '\n'
 			else:
 				line = line.strip()
 				if len(line) >= 21:
