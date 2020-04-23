@@ -10,10 +10,10 @@ outputDir=$5 #user defined output dir
 pvalue=$6 #pvalue threshold for PASTAA
 
 
-mkdir -p ${outputDir}
+#mkdir -p ${outputDir}
 ##Step 1: change CSV file format to bed file format  and run bedtools getFasta function
 echo "Step1: determine DNA sequence"
-awk 'NR!=1{print $4 "\t" $5 "\t" $6 "\t" $4 ":" $5 "-" $6 "_" $1}' ${REMs}  >${outputDir}REMs.bed #remove first line (header) and reorder the columns
+awk 'NR!=1{print $4 "\t" $5 "\t" $6 "\t" $3}' ${REMs}  >${outputDir}REMs.bed #remove first line (header) and reorder the columns
 
 bedtools getfasta -name -fi ${genome} -bed ${outputDir}REMs.bed -fo ${outputDir}REMs_.fa #determine fasta seq
 
@@ -32,6 +32,7 @@ echo "determined energy file"
 ${pathToRepo}src/TRAP_normalized ${outputDir}/energy.txt ${outputDir}REMs.fa >${outputDir}/TRAP_output.txt
 echo "determined TRAP"
 #run PASTAA
+echo "${pathToRepo}src/PASTAA ${outputDir}/TRAP_output.txt ${outputDir}ranking.txt |  sort -k2,2 -g  > ${outputDir}/PASTAA_output.txt"
 ${pathToRepo}src/PASTAA ${outputDir}/TRAP_output.txt ${outputDir}ranking.txt |  sort -k2,2 -g  > ${outputDir}/PASTAA_output.txt
 echo "determined PASTAA"
 

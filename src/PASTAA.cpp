@@ -7,8 +7,8 @@
 #include<iostream>
 #include<string>
 #include<iomanip>
-#include <algorithm>
-
+#include<algorithm>
+#include<vector>
 
 using namespace std;
 
@@ -76,16 +76,16 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  int numOfGenes;
-  int numOfFactors;
+  int numOfGenes = 0;
+  int numOfFactors = 0;
 
   //--------------------------------------------------------------------
   //DETERMINING NUMBER OF GENES and FACTORS
   //--------------------------------------------------------------------
 
-  string row; 
+  string row = ""; 
   string delimiters = " \t"; //word seperators in each line
-  int start, end;
+  int start = 0, end = 0;
   
   int rows = -1;
   int col = 0;
@@ -98,6 +98,9 @@ int main(int argc, char *argv[]){
   }
   while(!affinities.eof()){
     getline(affinities,row);
+//	if (row.size() == 0){
+//	cerr << "rows: " << rows<< endl;
+//	}
     if(row.substr(0,1) == ""){continue;}
     rows++;
     if(header == 1){
@@ -125,11 +128,14 @@ int main(int argc, char *argv[]){
 
   string genes[numOfGenes];
   string factors[numOfFactors];
+//	cerr << "genes: " << genes << " factors: " << factors << endl;
   double ** psi;
   psi = new double * [numOfGenes];
   for(int j = 0; j < numOfGenes; j++){
     psi[j] = new double[numOfFactors];
-  }
+	}
+	//new
+//	vector<vector<double>> psi(numOfGenes, vector<double>(numOfFactors, 0));
 
 
   ifstream raffinities(argv[1]);
@@ -168,6 +174,7 @@ int main(int argc, char *argv[]){
   }
   raffinities.close();
 
+//	return 0;
 
 
   //----------------------------------------------------------------------------------------
@@ -242,8 +249,6 @@ int main(int argc, char *argv[]){
   //---------------------------------------------------------------------
   //SETTING PREDEFINED CUTOFFS on AFFINITIES AND TISSUERANKS
   //---------------------------------------------------------------------
-
-
   //////////
   //TISSUE//
   //////////
@@ -442,7 +447,6 @@ int main(int argc, char *argv[]){
     cout.precision(4);
     string FACTOR = factors[f];
     cout << FACTOR << "\t" << scientific << mostsignificant << "\t" << optimaltargetsintissue << "\t" << optimalgenesintissue << "\t" << optimalalltargets << "\t" << numOfGenes << "\t" << numOfUsergenes << "\n";
-  
     
   }//END FACTORS
   
@@ -450,10 +454,19 @@ int main(int argc, char *argv[]){
   //--------------------------------------------------------------
   //CLEAR DYNAMIC VARIABLES
   //--------------------------------------------------------------
-  
+cerr << "here " <<numOfGenes << endl;
   for(int j = 0; j < numOfGenes; j++){
+  	cerr << "here"<< psi[j]   << " " <<  j <<endl;
+	if (j == 1977){	
+		for(int i = 0; i < numOfFactors+1; ++i){
+			cerr << psi[j][i] << " " << i << " \n" ;
+		} 
+	}
     delete [] psi[j];
   }
+  cerr << "danach" <<endl;
   delete [] psi;
+  cerr << "am Ende" <<endl;
+cerr << "aaaahhhhh" << endl;
+	return 0;
 }
-

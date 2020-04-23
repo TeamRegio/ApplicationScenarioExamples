@@ -2,6 +2,7 @@
 //INSTITUTION: Max Planck Institute for Molecular Genetics - Berlin
 //DATE: 20/11/2006
 
+//CC = g++ 
 //takes a count matrix, adds pseudocounts and removes uninformative positions
 //and then converts the modified count matrix into an energy matrix
 
@@ -114,6 +115,7 @@ int main(int argc, char *argv[]){
   double max = 0; //consensus base count
   string row; //transfac file rows
   string delimiters = " \t"; //word seperators in each line
+  //string delimiters = " "; //word seperators in each line
   int reading;
   int start, end;
   
