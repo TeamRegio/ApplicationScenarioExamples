@@ -10,7 +10,7 @@ outputDir=$5 #user defined output dir
 pvalue=$6 #pvalue threshold for PASTAA
 
 
-#mkdir -p ${outputDir}
+mkdir -p ${outputDir}
 ##Step 1: change CSV file format to bed file format  and run bedtools getFasta function
 echo "Step1: determine DNA sequence"
 awk 'NR!=1{print $4 "\t" $5 "\t" $6 "\t" $3}' ${REMs}  >${outputDir}REMs.bed #remove first line (header) and reorder the columns
@@ -25,13 +25,13 @@ rm ${outputDir}REMs_.fa
 
 ##Step 3: call PASTAA workflow
 echo "run PASTAA workflow"
-#transform PFMs to PSEM (energy file)
+##transform PFMs to PSEM (energy file)
 ${pathToRepo}src/PSCM_to_PSEM ${setOfMotifs} >${outputDir}/energy.txt
 echo "determined energy file"
-#run TRAP
-${pathToRepo}src/TRAP_normalized ${outputDir}/energy.txt ${outputDir}REMs.fa >${outputDir}/TRAP_output.txt
+##run TRAP
+${pathToRepo}src/TRAP ${outputDir}/energy.txt ${outputDir}REMs.fa >${outputDir}/TRAP_output.txt
 echo "determined TRAP"
-#run PASTAA
+##run PASTAA
 echo "${pathToRepo}src/PASTAA ${outputDir}/TRAP_output.txt ${outputDir}ranking.txt |  sort -k2,2 -g  > ${outputDir}/PASTAA_output.txt"
 ${pathToRepo}src/PASTAA ${outputDir}/TRAP_output.txt ${outputDir}ranking.txt |  sort -k2,2 -g  > ${outputDir}/PASTAA_output.txt
 echo "determined PASTAA"
