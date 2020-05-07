@@ -454,19 +454,8 @@ int main(int argc, char *argv[]){
   //--------------------------------------------------------------
   //CLEAR DYNAMIC VARIABLES
   //--------------------------------------------------------------
-cerr << "here " <<numOfGenes << endl;
   for(int j = 0; j < numOfGenes; j++){
-  	cerr << "here"<< psi[j]   << " " <<  j <<endl;
-	if (j == 1977){	
-		for(int i = 0; i < numOfFactors+1; ++i){
-			cerr << psi[j][i] << " " << i << " \n" ;
-		} 
-	}
     delete [] psi[j];
   }
-  cerr << "danach" <<endl;
   delete [] psi;
-  cerr << "am Ende" <<endl;
-cerr << "aaaahhhhh" << endl;
-	return 0;
 }
