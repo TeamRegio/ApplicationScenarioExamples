@@ -126,7 +126,9 @@ int main(int argc, char *argv[]){
   //READING IN AFFINITY DATA
   //----------------------------------------------------------------------------------------
 
-  string genes[numOfGenes];
+//  string genes[numOfGenes]; 
+// changed such that this string array is stored dynamically on the heap needs to be deleted!!
+  string * genes = new string[numOfGenes];
   string factors[numOfFactors];
 //	cerr << "genes: " << genes << " factors: " << factors << endl;
   double ** psi;
@@ -195,9 +197,13 @@ int main(int argc, char *argv[]){
   userlist.close();
 
   int numOfUsergenes = rows;
-  string usergenes[numOfUsergenes];
-  double usergeneranks[numOfUsergenes];
-
+//  string usergenes[numOfUsergenes];
+// changed such that this string array is stored dynamically on the heap needs to be deleted!!
+  string * usergenes = new string[numOfGenes];
+// changed such that this double array is stored dynamically on the heap needs to be deleted!!
+  double * usergeneranks = new double[numOfUsergenes];
+  //double usergeneranks[numOfUsergenes];
+	cerr << "hier " << endl;
   //----------------------------------------------------------------------------------------
 
   ifstream ruserlist(argv[2]);
@@ -226,7 +232,9 @@ int main(int argc, char *argv[]){
   ruserlist.close();
 
   int numOfMatchedUsergenes = 0;
-  double tissuerankvalues[numOfGenes];  
+//  double tissuerankvalues[numOfGenes];  
+// changed such that this double array is stored dynamically on the heap needs to be deleted!!
+  double * tissuerankvalues = new double[numOfGenes];
   for(int g = 0; g < numOfGenes; g++){
     tissuerankvalues[g] = 99999;
     for(int u = 0; u < numOfUsergenes; u++){
@@ -243,7 +251,6 @@ int main(int argc, char *argv[]){
   cerr << numOfUsergenes <<" genes in input list were matched\n";
   cerr << numOfGenes <<" genes with annotated affinity\n";
   cerr << numOfFactors <<" factors (PFMs)\n__________________\n\n";
-
 
 
   //---------------------------------------------------------------------
@@ -287,10 +294,13 @@ int main(int argc, char *argv[]){
 
   //LOOP OVER FACTORS//
   for(int f = 0; f < numOfFactors; f++){
-    //    cerr << factors[f] << "\n";
-
-    double inverseaffy1[numOfGenes];
-    double inverseaffy2[numOfGenes];
+//        cerr << factors[f] << "\n";
+//	cerr << "number genes " << numOfGenes << endl;
+   // double inverseaffy1[numOfGenes];
+// changed such that this double array is stored dynamically on the heap needs to be deleted!!
+  double * inverseaffy1 = new double[numOfGenes];
+  double * inverseaffy2 = new double[numOfGenes];
+   // double inverseaffy2[numOfGenes];
     for(int g = 0; g < numOfGenes; g++){
       inverseaffy1[g] = 1/(psi[g][f]+1); //reverse ranking
       inverseaffy2[g] = inverseaffy1[g];
@@ -309,7 +319,6 @@ int main(int argc, char *argv[]){
 	}
       }
     }
-
     int targets_within_tissue[numOfTissueCutoffs][numOfAffyCutoffs];
     for(int ac = 0; ac < numOfAffyCutoffs; ac++){
       for(int tc = 0; tc < numOfTissueCutoffs; tc++){
@@ -333,18 +342,17 @@ int main(int argc, char *argv[]){
       }
     }
     
-
     //------------------------------------------------------------------------------
     //HYPERGEOMETRIC TESTS
     //------------------------------------------------------------------------------
     
     //precalculated logs
-    double storedlog[numOfGenes + 1];
+// changed such that this double array is stored dynamically on the heap needs to be deleted!!
+  double * storedlog = new double[numOfGenes + 1];
     storedlog[0] = 1;
     for(int n = 1; n < numOfGenes + 1; n++){
       storedlog[n] = log(n);
     }
-
     int optimaltargetsintissue = -1;
     int optimalgenesintissue = -1;
     int optimalalltargets = -1;
@@ -448,12 +456,21 @@ int main(int argc, char *argv[]){
     string FACTOR = factors[f];
     cout << FACTOR << "\t" << scientific << mostsignificant << "\t" << optimaltargetsintissue << "\t" << optimalgenesintissue << "\t" << optimalalltargets << "\t" << numOfGenes << "\t" << numOfUsergenes << "\n";
     
+  delete [] inverseaffy1;
+  delete [] inverseaffy2;
+  delete [] storedlog;
   }//END FACTORS
   
 
   //--------------------------------------------------------------
   //CLEAR DYNAMIC VARIABLES
   //--------------------------------------------------------------
+
+	//delete heap stored elements
+	delete [] tissuerankvalues;
+  	delete [] genes;
+  	delete [] usergenes;
+	delete [] usergeneranks;
   for(int j = 0; j < numOfGenes; j++){
     delete [] psi[j];
   }
