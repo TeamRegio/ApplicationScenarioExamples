@@ -269,7 +269,7 @@ int main(int argc, char *argv[]){
 //.............
 //#pragma omp parallel default(shared)
 //{
-#pragma omp parallel for  private(dE_forward, dE_compl, illegalBase, BASE, product, P_bound_F, P_bound_C, P_combined, totalvalids) num_threads(5)
+//#pragma omp parallel for  private(dE_forward, dE_compl, illegalBase, BASE, product, P_bound_F, P_bound_C, P_combined, totalvalids) num_threads(5)
 //.............
 
     //LOOP OVER FACTORS
