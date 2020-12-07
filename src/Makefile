@@ -22,7 +22,8 @@ else
 #CC = clang++ 
 CC = g++ 
 CFLAGS = -std=c++11 -fopenmp 
-LDFLAGS = -static
+#CFLAGS = -std=c++11
+LDFLAGS =  -static
 #WFLAG = -Wall #for warnings
 
 all: $(SRC) Makefile

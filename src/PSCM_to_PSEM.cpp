@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
     }
     
     //if(word[0] == "P0"){ //start of matrix
-    if(word[0] == "PO"){ //start of matrix
+    if((word[0] == "PO") || (word[0] == "P0")){ //start of matrix
       factors++;
       reading = 1;
       position = 0;

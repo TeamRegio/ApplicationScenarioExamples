@@ -15,7 +15,7 @@ mkdir -p ${outputDir}
 echo "Step1: determine DNA sequence"
 awk 'NR!=1{print $4 "\t" $5 "\t" $6 "\t" $3}' ${REMs}  >${outputDir}REMs.bed #remove first line (header) and reorder the columns
 
-bedtools getfasta -name -fi ${genome} -bed ${outputDir}REMs.bed -fo ${outputDir}REMs_.fa #determine fasta seq
+/MMCI/MS/DEEP-liver/work/Tools/bedtools/bedtools2/bin/bedtools getfasta -name -fi ${genome} -bed ${outputDir}REMs.bed -fo ${outputDir}REMs_.fa #determine fasta seq
 
 ##Step 2: parse REM ranking in correct format for PASTAA and delete REMs shorter than the longest moitf (21bp)
 echo "Step 2: parse REM ranking in the format PASTAA requires"

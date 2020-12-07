@@ -203,7 +203,6 @@ int main(int argc, char *argv[]){
 // changed such that this double array is stored dynamically on the heap needs to be deleted!!
   double * usergeneranks = new double[numOfUsergenes];
   //double usergeneranks[numOfUsergenes];
-	cerr << "hier " << endl;
   //----------------------------------------------------------------------------------------
 
   ifstream ruserlist(argv[2]);
