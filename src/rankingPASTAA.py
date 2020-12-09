@@ -42,7 +42,7 @@ else:
 					headers.append(header[1:-1])
 
 	rankedCSV.sort(key = lambda x: x[1], reverse = True) 
-	#print("rankedCSV: " + str(rankedCSV))
+#	print("rankedCSV: " + str(rankedCSV))
 
 	with  open(output, 'w') as o:
 		for i in rankedCSV:

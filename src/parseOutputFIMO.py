@@ -6,8 +6,10 @@ PVALUE = 0.01
 WPVALUE = 0.001
 
 
-if (len(sys.argv) < 6):
-	print("python3 parseOutputFimo.py FIMO_output, epiregio_file,PASTAA_output, output_info, output, fimoTSS.txt")
+#if (len(sys.argv) < 6):
+#	print("python3 parseOutputFimo.py FIMO_output, epiregio_file,PASTAA_output, output_info, output, fimoTSS.txt")
+if (len(sys.argv) < 5):
+	print("python3 parseOutputFimo.py FIMO_output, epiregio_file,PASTAA_output, output_info, output")
 else:
 	FIMO = sys.argv[1]
 	epiregio = sys.argv[2]
@@ -16,7 +18,7 @@ else:
 	#write header output
 	output.write("TF\tREMID\tregion\tcellTypeScore\tREM_activity(DNase_signal)\tstart\tstop\tstart_relative\tend_relative\tstrand\tmatched_seq\n")
 	output2 = open(sys.argv[5], 'w')
-	fimoTSS = sys.argv[6]
+	#fimoTSS = sys.argv[6]
 
 	#read PASTAA file and store all significant motifs
 	sig_TFs = []
@@ -60,7 +62,7 @@ else:
 	with open(FIMO, 'r') as result:
 		result.readline()
 		for line in result:
-			if line[0] == "#":
+			if not line.strip() or line[0] == "#":
 				break
 			line = line.strip().split('\t')
 			currentTF = line[1]
@@ -82,26 +84,26 @@ else:
 
 
 	#read FIMO TSS file
-	TSS_long = {} # TF -> binding site counts
-	TSS_short = {} # same just for the short isoform
-	with open(fimoTSS, 'r') as f:
-		f.readline() #skip header
-		for line in f:
-			line = line.strip().split('\t')
-			print(line)
-			TF = line[1]
-			seq_name = line[2].split("_")
-			seq_name = seq_name[2]
-			if seq_name == "shortIsoform":
-				if TF in TSS_short.keys():
-					TSS_short[TF] = TSS_short[TF] + 1
-				else:
-					TSS_short[TF] = 1
-			else:
-				if TF in TSS_long.keys():
-					TSS_long[TF] = TSS_long[TF] + 1
-				else:
-					TSS_long[TF] = 1
+	#TSS_long = {} # TF -> binding site counts
+	#TSS_short = {} # same just for the short isoform
+	#with open(fimoTSS, 'r') as f:
+#		f.readline() #skip header
+#		for line in f:
+#			line = line.strip().split('\t')
+#			print(line)
+#			TF = line[1]
+#			seq_name = line[2].split("_")
+#			seq_name = seq_name[2]
+#			if seq_name == "shortIsoform":
+#				if TF in TSS_short.keys():
+##					TSS_short[TF] = TSS_short[TF] + 1
+#				else:
+#					TSS_short[TF] = 1
+#			else:
+#				if TF in TSS_long.keys():
+#					TSS_long[TF] = TSS_long[TF] + 1
+#				else:
+#					TSS_long[TF] = 1
 	#write output
 	output2.write("TF")
 	order = []
@@ -109,7 +111,8 @@ else:
 		if k in REMs_Fimo:
 			output2.write('\t' + k)
 			order.append(k)
-	output2.write( '\tTSS_short\tTSS_long\n')
+	#output2.write( '\tTSS_short\tTSS_long\n')
+	output2.write( '\n')
 
 	TFs = hits_per_TF.keys()
 	#print("len TFs: " + str(len(TFs)))
@@ -124,24 +127,27 @@ else:
 			for elem in order:
 				#if elem in REMs_Fimo: #check if REM is considered in FIMO result
 					output2.write("\t" +str(REMs[elem]))
-			if TF in TSS_short.keys():
-				output2.write("\t" + str(TSS_short[TF]))
-			else:
-				output2.write("\t0")
-			if TF in TSS_long.keys():
-				output2.write("\t" + str(TSS_long[TF])+ '\n')
-			else:
-				output2.write("\t0\n")
+			output2.write('\n')
+#			if TF in TSS_short.keys():
+#				output2.write("\t" + str(TSS_short[TF]))
+#			else:
+#				output2.write("\t0")
+#			if TF in TSS_long.keys():
+#				output2.write("\t" + str(TSS_long[TF])+ '\n')
+#			else:
+#				output2.write("\t0\n")
 	print(REMs_Fimo)
 	output2.write("activity")
 	#for elem in REMs_Fimo:
 	for elem in order:
 		output2.write('\t' + dnaseSignal[elem])
-	output2.write("\t0.0\t0.0\ncellTypeScore")
+	#output2.write("\t0.0\t0.0\ncellTypeScore")
+	output2.write("\ncellTypeScore")
 	#for elem in REMs_Fimo:
 	for elem in order:
 		output2.write('\t' + cellTypeScore[elem])
-	output2.write('\t0.0\t0.0\n')
+	#output2.write('\t0.0\t0.0\n')
+	output2.write('\n')
 
 	output.close()
 	output2.close()
